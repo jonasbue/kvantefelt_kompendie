@@ -1,0 +1,661 @@
+\documentclass{article}
+\usepackage[left=3cm, right=3cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[norsk]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{feynmp-auto}
+\usepackage{slashed}
+%\usepackage{feynmp}
+
+\newtheorem{theorem}{Teorem}
+\newtheorem{example}{Eksempel}
+\renewcommand{\times}{\cdot}
+\renewcommand{\L}{\mathcal{L}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\F}[1]{\mathcal{F}\{{#1}\}}
+\newcommand{\KG}{\Box + m^2}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\bra}[1]{\langle {#1} \mathclose|}
+\newcommand{\ket}[1]{\mathopen| {#1} \rangle}
+\newcommand{\abs}[1]{\mathopen| {#1} \mathclose|}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\title{FY3464 -- Kvantefeltteori, kort fortalt}
+\author{Jonas Bueie}
+\date{Oppdatert: \today}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+%\section{Introduksjon}
+%\section{Definisjoner}
+
+\section{Sentrale teoremer}
+\begin{theorem}[Noethers teorem]
+    Når lagrangefunksjonen har en kontinuerlig symmetri, eksisterer det en strøm forbundet med symmetrien, som er bevart når bevegelseslikningene er tilfredsstilt.
+\end{theorem}
+
+Altså er
+\begin{equation*}
+    \frac{\partial \L}{\partial \alpha} = 0
+\end{equation*}
+dersom $\L$ er symmetrisk under variasjon av $\alpha$.
+
+\begin{example}
+    Når $\phi \rightarrow e^{-i \alpha}\phi$, er denne strømmen
+    \begin{equation*}
+        J_\mu = \Sigma_n \frac{\partial \L}{\partial_\mu (\partial \phi_n)} \frac{\delta \phi_n}{\delta \alpha}.
+    \end{equation*}
+\end{example}
+
+\begin{example}
+    Hvis $\L$ er translasjonsinvariant, altså at $\phi$ er symmetrisk under $\phi(x_\mu) \rightarrow \phi(x_\mu + \xi_\mu)$, finnes en noetherstrøm per dimensjon $\mu$.
+    Disse strømmene er energi- ($\mu = 0$) og impulsstrømmer ($\mu = i = 1, 2, 3$), og er gitt ved energi-impulstensoren
+    \begin{equation*}
+        T_{\mu \nu} = \Sigma_n \frac{\partial \L}{\partial (\partial_\mu \phi)} \partial_\nu \phi_n - \eta_{\mu \nu} \L.
+    \end{equation*}
+\end{example}
+
+\begin{theorem}[Wicks teorem]
+    \begin{equation*}
+    T{\phi_0(x_1) \cdots \phi_0(x_n)} = :\phi_0(x_1) \cdots \phi0(x_n): 
+        + \, \text{alle mulige sammentrekninger}
+    \end{equation*}
+\end{theorem}
+Disse sammentrekningene er summen av alle mulige produkter av feynmanpropagatorer $D_F(x_i, x_j)$ mellom to felter $\phi(x_i), \phi(x_j)$.
+\begin{equation*}
+    D_F(x_1, x_2) \cdots D_F(x_{n-1}, x_n) + \ldots,
+\end{equation*}
+for enhver mulig kombinasjon av to punkter fra ${x_1, \ldots, x_n}$. 
+Hvert felt $\phi$ kan kun trekkes sammen med ett annet, og alle felter må inngå i én propagator. 
+
+
+\section{Kvantisering}
+
+\subsection{Førstekvantisering}
+
+Den klassiske hamiltonfunksjonen for en harmonisk oscillator er
+\begin{equation*}
+    \label{harm_osc}
+    H = \frac{p^2}{2m} + \frac{1}{2} m \omega^2 x^2.
+\end{equation*}
+Ved å \emph{kvantisere} denne likningen, oppnår vi hamiltonfunksjonen for en kvantemekanisk harmonisk oscillator.
+Dette gjøres ved å la $x$ og $p$ bli operatorer $\hat{x}$ og $\hat{p}$ som tilfredsstiller
+\begin{equation*}
+    [\hat{x}, \hat{p}] = i.
+\end{equation*}
+Vi definerer deretter skapelses- og annihileringsoperatorene $a$ og $a^\dagger$ slik at
+\begin{equation*}
+    a^\dagger \ket{n} = \sqrt{n+1}\ket{n+1}, \quad
+    a \ket{n} = \sqrt{n-1}\ket{n-1}, \quad
+\end{equation*}
+\begin{equation*}
+    [a, a^\dagger] = 1, og 
+\end{equation*}
+
+\begin{equation}
+    H = \omega\left(a^\dagger a + \frac{1}{2} \right).
+    \label{H-kvant-1}
+\end{equation}
+Dette kalles førstekvantisering.
+
+\subsection{Annenkvantisering}
+I en feltteori består et system av uendelig mange moder $\phi$ som alle tilfredsstiller de samme bevegelseslikningene som i det klassiske tilfellet.
+Hver enkelt mode tilfredsstiller da den kvantiserte hamiltonfunksjonen \eqref{H-kvant-1}, men ved å kvantisere denne enda en gang, kan vi beskrive et felt.
+\begin{equation*}
+    H = \int \frac{d^3p}{(2\pi)^3} \omega_p \left(a_p^\dagger a_p + \frac{1}{2} V \right),
+    \label{H-kvant-2}
+\end{equation*}
+der $V$ er volumet til systemet og $\omega_p = \abs{\vec{p}}$.
+Hamiltonfunksjonen for systemet er nå et integral over de uendelig mange modenes individuelle hamiltonfunksjoner.
+Denne \emph{annenkvantiseringen} promoterer hilbertrommet til et fockrom, og endrer skapelses- og annihilasjonsoperatorenes kommutatorrelasjon til
+\begin{equation*}
+    [\hat{a_p}, \hat{a^\dagger_k}] = (2\pi)^3 \delta^3(\vec{p} - \vec{k}).
+\end{equation*}
+
+$a^\dagger_p$ skaper en tilstand med impuls $\vec{p}$, og $a_p$ annihilerer den.
+\begin{equation*}
+    a^\dagger_p \ket{0} = \frac{1}{\sqrt{2\omega_p}}\ket{p}. 
+    %a \ket{p} = \frac{1}{\sqrt{2\omega_p}}\ket{0}, \quad
+\end{equation*}
+
+\section{Frie skalarfelter}
+Klein-Gordonlikningen er en kvantisert versjon av den velkjente likningen for relativistisk energi
+\begin{equation*}
+    E = p^2c^2 + m^2c^4 \implies (\KG) \phi = 0,
+\end{equation*}
+der $\phi = \phi(x) = \phi(t, \vec{x})$ er et skalart (spinnløst) felt, som kan utrykkes
+\begin{equation*}
+    \phi(x) = 
+        \int \frac{d^3p}{(2\pi)^3} \frac{1}{\sqrt{2\omega_p}} (a_p e^{-ipx} + a^\dagger e^{ipx}),
+\end{equation*}
+der $p = p^\mu = (\omega_p, \vec{p})$, og skapelses- og aniihilasjonsoperatorene er de samme som for den harmoniske oscillatoren.
+$\phi$ er altså en samling av uavhaengige harmoniske oscillatorer, og vi tar dette som en definisjon av frie skalarfelter, med Klein-Gordonlikningen som bevegelseslikning.
+
+Med denne definisjonen av feltene, har vi at
+\begin{equation*}
+    [\phi(\vec{x}), \phi(\vec{y})] = 0,
+\end{equation*}
+\emph{ved samme tid $x^0 = y^0$}, og 
+\begin{equation*}
+    [\phi(\vec{x}), \pi(\vec{y})] 
+        = [\phi(\vec{x}), \partial_t \phi(\vec{y})] 
+        = i \delta(\vec{x} - \vec{y}).
+\end{equation*}
+Denne siste kommutatoren er Heisenbergs usikkheretsrelasjon for en feiltteori:
+Et felt og dets endring er ikke målbart på samme tid og sted.
+
+\subsection{Lagrangefunksjoner}
+I kvantefeltteori er lagranefunksjoner naturlige å bruke, ettersom de er lorentzinvariante.
+Vi deler normalt lagrangefunksjonen i en kinetisk del og en interaksjonsdel, analogt til den kinetiske og den potensielle energien i klassisk mekanikk.
+\begin{equation*}
+    \L = \L_{kin} + \L_{int} 
+\end{equation*}
+Den kinetiske delen består \emph{alltid} av bilineære ledd -- det vil si ledd som har nøyaktig to felter, mens interaksjonsdelen består av ledd med \emph{mer enn tre} felter.
+
+Et fritt skalarfelt har lagrangefunksjonen
+\begin{equation}
+    \L = \L_{kin} = \frac{1}{2} \phi^* \Box \phi + \frac{1}{2} m^2 \phi^2
+    \label{eq:L_free}
+\end{equation}
+uten noe interaksjonsledd.
+
+\subsection{Korrelatorer}
+Feynmanpropagatoren 
+\begin{equation*}
+    \begin{split}
+        G_F(x - y)
+        &\coloneqq \langle \phi(\vec{x}), \phi(\vec{y}) \rangle
+        = \bra{0} \phi(\vec{x}) \phi(\vec{y}) \ket{0}\\
+        &= \int \frac{d^4k}{(2\pi)^4} \frac{1}{k^2 - m^2 + i\epsilon} e^{ik(x - y)}\\
+    \end{split}
+\end{equation*}
+er en greenfunksjon for Klein-Gordonlikningen
+\begin{equation*}
+    (\KG) G_F(x-y) = i \delta^4(x - y),
+\end{equation*}
+og beskriver korrelasjonen mellom feltet $\phi$ i to ulike punkter $x$ og $y$, i en \emph{fri teori}.
+Dette svarer til en partikkel som beveger seg med 4-impuls $k$ og masse $m$ gjennom romtiden. Nærmere bestemt:
+Sannsynligheten for at partikkelen beveger seg fra $\vec{y}$ til $\vec{x}$ i løpet av tida $y^0 - x^0$.
+
+Denne propagatoren svarer til lagrangefunksjonen for frie skalarfelt fra likninng \eqref{eq:L_free}.
+Andre propagatorer er nødvendig for andre $\L_{kin}$, for eksempel har fotoner eller diracspinorer egne propagatorer.
+
+Svært nyttig er fourirtransformasjonen til en propagator. 
+I fourierrom har feynmanpropagatoren den enkle formen
+\begin{equation*}
+    \tilde{G}_F(x - y) = \frac{i}{k^2 - m^2 + i\epsilon}.
+\end{equation*}
+Videre har $G_F$ en pol i $k^2 = m^2$. 
+Disse polene kansellerer når partikkelens bevegelseslikninger er oppfylt (altså når partikkelen er ,,on-shell'').
+Dette er viktig for beregning av S-matriseelementer, siden polene gir bidrag til integralet i LSZ-reduksjonsformelen (se seksjon \ref{spredning}).
+
+\section{Veiintegralet}
+Veiintegralet lar oss beregne tidsordnede produkter med utgangspunkt i et systems \emph{klassiske} egenskaper.
+Integralet er 
+\begin{equation*}
+        \bra{\Omega} T\{\phi(x_1) \cdots \phi(x_n)\}\ket{\Omega}
+        = \frac{\int \D \phi \phi(x_1) \cdots \phi(x_n) e^{iS[\phi]}}{\int \D \phi e^{iS[\phi]}},
+\end{equation*}
+der $S$ er den klassiske virkningen til systemet,
+\begin{equation*}
+    S = \int dt \L[x(t), \dot{x}(t)],
+\end{equation*}
+og $\D\phi$ indikerer at vi integrerer over \emph{alle} mulige feltkonfigurasjoner $\phi$ som har de rette grensebetingelsene.
+
+For å beregne veiintegralet kan vi derfinere et genererende funksjonal
+\begin{equation*}
+    Z[J] = \int \D \phi exp \left\{iS[\phi] + i\int d^4x J(x)\phi(x)\right\},
+\end{equation*}
+slik at det tidsordnede produktet kan skrives
+\begin{equation*}
+        \bra{\Omega} T\{\phi(x_1) \cdots \phi(x_n)\}\ket{\Omega}
+        = (-i)^n \frac{1}{Z[0]} 
+        \left. \frac{\partial^n Z}{\partial J(x_1) \cdots \partial J(x_n)} \right\rvert_{J=0},
+\end{equation*}
+som en analog til partisjonsfunksjonen i statistisk fysikk.
+
+Med veiintegralet er kvantemekanikken feid langt under teppet, men Schwinger-Dyson-likningene -- som gir avviket mellom klassisk og kvantemekanisk feltteori -- kan utledes fra veiintegralet.
+Slik kan man se at et integral over den klassiske virkningen gir kvantemekaniske resultater.
+
+\section{Skalar perturbasjonsteori}
+
+\subsection{Feynmandiagrammer}
+\label{feynmandiagrammer}
+Feynmandiagrammer er vertkøy for å utføre perturbasjonsteori.
+For enhver partikkels bevegelse gjennom tid, knytter man en del av et diagram, og disse delene settes sammen til et helt diagram.
+Et feynmandiagram korresponderer med et integral, som gir sannsynligheten for at interaksjonen fra diagrammet finner sted.
+Man kan dermed summere opp diagrammer med like start- og sluttilstander, og finne amplitudebidraget fra de ulike interaksjonene (diagrammene).
+
+Hvert hjørne i diagrammet bidrar med en koplingskonstant (f.eks. $\lambda$) i integralet (se rglene nedenfor), som i perturbasjonsteori typisk er liten.
+Når vi rekkeutvikler et system i denne koplingskonstanten, summerer vi derfor diagrammet med økende antall hjørner. 
+Jo flere hjørner, jo høyere orden er leddet, slik at mer komplekse interaksjoner (flere hjørner i diagrammet) gir mindre amplitudebidrag enn enkle interaksjoner (færre hjærner i diagrammet).
+
+\subsection{Feynmanregler}
+Feymandiagrammer og deres integraler konstrueres gjennom feynmanregler, som er ulike for ulike lagrangefunksjoner.
+Feynmanreglene kan utledes enten fra veiintegralet, eller fra lagrange- eller hamiltonfunksjonene.
+I impulsrom, for lagrangefunksjoner på formen , er feynmanreglene som følger:\footnote{
+    Her burde vært et avsnitt om utledning av feynmanreglene.
+    }
+Nedenfor følger en oppsummering av feynmanreglene, med eksempler fra skalar $\lambda \phi^4$-teori, som har lagrangefunksjonen
+\begin{equation}
+    \label{skalar_phi4}
+    \L = \L_{kin} + \L_{int} 
+        = \frac{1}{2} \phi^* \Box \phi \frac{1}{2} m^2 \phi^2
+        + \frac{\lambda}{4!} \phi^4.
+\end{equation}
+Generelt må feynmanregler utledes uavhengig for enhver teori, så jeg gir ingen garanti for at disse reglene er generelle.
+
+\begin{itemize}
+    \item Interne linjer svarer til en fri propagator, og følger fra $\L_{kin}$. 
+    \begin{itemize}
+        \item For $\L$ som i likning \eqref{skalar_phi4}, representeres de med feynmanpropagatoren, $\frac{i}{p^2 - m^2 + i\epsilon}$
+    \end{itemize}
+    \item Hjørner svarer til interaksjoner, og følger fra $\L_{int}$. 
+    \begin{itemize}
+        \item For $\L$ som i likning \eqref{skalar_phi4}, representeres de med faktoren $i \lambda$.
+        \item Merk: Hvis interaksjonsleddene inneholder en derivert, slik som i kvanteelektrodynamikk, må koplingskonstanten ganges med impulsen til det deriverte feltet. 
+        Dette kan sees ved å skrive ut interaksjonsleddene med definisjonen av feltene som inngår i teorien.
+        Leseren oppfordres til årvåkenhet i møte med mer komplekse interaksjonsledd enn fra likning \eqref{skalar_phi4}.
+    \end{itemize}
+    \item Impuls er bevart i hvert hjørne. Impulsbevaring representeres med en faktor $\delta(\sum_i k_i - \sum_f k_f)$ for alle hjørner.    
+    \item Symmetrier reoresenteres med symmetrifaktoren $\frac{1}{s}$.
+    \item For å regne ut diagrammet multipliseres faktorene fra alle punktene over, og det integreres over alle ubestemte impulser.
+    \item For å regne ut et sett med diagrammer, summeres alle enkeltdiagrammene.
+\end{itemize}
+
+\subsection{Regularisering}
+Det meste i kvantefeltteori divergerer\footnote{Det virker i alle fall sånn.}.
+For eksempel er 1-løkkediagrammet $\infty$.
+Dette kan forklares med at kvantefeltteori ikke kan gi noen nyttig verdi for størrelser som ikke er fysisk observerbare, og løkker er ikke i utgangspunktet fysisk observerbare.
+Vi kan derimot finne rimelige verdier for integralene, gjennom regularisering og renormalisering.
+Dette innebærer (forenklet) å innføre parametre som kan fungere som målbare referanseverdier (på samme måte som vi er vant med for potensialfunksjoner), og beregne alle andre verdier med utgangspunkt i disse.
+
+Det finnes flere metoder for å regularisere:\footnote{
+    Merk at kun de to første har vært dekket i forelesninger, men også de andre kan være ganske hendige.
+}
+\begin{itemize}
+    \item \textbf{Avkapping (,,hard cutoff``):} Definer en maksverdi for integraldomenet basert på en naturlig fysisk størrelse, og kutt integralet her.
+    \item \textbf{Dimensjonell regularisering}: La $d^4k \rightarrow d^dk$, der $d = 4-\epsilon$. 
+        Dette kan i mange tilfeller fjerne divergensen i et integral over propagatorer, slik at det kan løses i grensa $\epsilon \rightarrow 0$.
+        Se for øvrig identitetene i Schwartz, vedlegg B for hjelp med å løse integralene.
+    \item \textbf{Derivajsonsmetoden}: En rask og ikke-ideell måte å trekke ut koeffisientene i resultatet av et UV-divergerende integral (et integral som divergerer for store $k$).
+    \item \textbf{Pauli-Villarsregularisering}: Innfør en fiktiv masse $\Gamma \gg m$ og legg til denne partikkelens propagator $\frac{1}{(k^2 - \Lambda^2 +i\epsilon)^2}$ i integranden.
+\end{itemize}
+
+Etter å ha regularisert et integral, kan vi renormalisere reusltatet og oppnå fysisk meningsfulle svar.
+
+\subsection{Renormalisering}
+Renormalisering er en prosess der vi definerer en referanseverdi, en \emph{renormaliseringsbetingelse} for en variabel, slik at variabelen kan uttrykkes som en funksjon av referanseverdien.
+Både i skalar $\phi^3$- og $\phi^4$-teori, samt i kvanteelektrodynamikk, er det tre størrelser som renormaliseres:
+Feltet/feltene ($\phi$ eller $\psi$ og $A$), massen ($m$) og ladningen ($e$, $g$ eller $\lambda$) 
+
+
+\subsection{Ladningsrenormalisering}
+Koplingskonstanten(e) i $\L$ (for eksempel $g, \, \lambda$ eller $e$) må renormaliseres for at et diagram skal gi meninsgfulle svar. 
+I denne prosessen uttrykker vi koplingskonstanten som ei rekkeutvikling av feynmandiagrammer, og definerer en referanseverdi for en variabel (typisk impuls).
+
+Dette gjøres ved å skrive propagatoren som ei rekkeutvikling av feynmandiagrammer.
+Disse har økende orden av koplingskonstanten, som nevnt i seksjon \ref{feynmandiagrammer}.
+Vi kan så uttrykke en ny, renormalisert koplingskonstant som ei rekkeutvikling av den opprinnelige.
+Denne defineres ved en referanseverdi for impulsen som vi kan definere selv\footnote{Dette er sikkert ikke særlig generelt.}.
+Til slutt kan propagatoren uttrykkes som ei rekkeutvikling av den nye, renormaliserte kopblingskonstanten.
+
+\subsection{Masserenormalisering}
+\begin{example}[Masserenormalisering]
+    \label{ex:renormalisering}
+    1-løkkediagrammet i skalar $\lambda \phi^4$-teori er
+    \unitlength = 1mm
+    \begin{equation}
+    \begin{gathered}
+        \begin{fmffile}{truncated_loop}
+            \begin{fmfgraph}(30,20)
+            \fmfleft{i1}
+            \fmfright{o1}
+            \fmf{fermion}{i1,v,o1}
+            \fmf{fermion}{v,v}
+            \end{fmfgraph}
+        \end{fmffile}
+    \end{gathered} = \Sigma_2(k) = - \frac{i\lambda}{16\pi^2} \int_0^\infty dp \frac{p^3}{p^2 + m^2} = \infty.
+    \label{one_loop}
+    \end{equation}
+    Dette er det andre leddet i selvenergien, derav navnet $\Sigma_2$.
+    Merk at leddet er trunkert -- endepunktene er fjernet, slik som når feynmandiagram konstrueres.
+    Hvis vi legger på endepunktene, har vi en propagator mellom to punkter.
+    Denne skal vi finne snart.
+
+    Integralet i likning \eqref{one_loop} kan regulariseres med avkapping 
+    \begin{equation*} 
+    - \frac{i\lambda}{16\pi^2} \int_0^\infty dp \frac{p^3}{p^2 + m^2} = 
+     = - \frac{i\lambda}{16\pi^2} \int_0^\Lambda dp \frac{p^3}{p^2 + m^2}
+     \approx - \frac{i\lambda}{32\pi^2} \left(\Lambda^2 - m^2 \ln{\frac{\Lambda^2}{m^2}}\right),
+    \end{equation*} 
+    for en stor $\Lambda \gg m$.
+    Dette er en førsteordens korreksjon til den nullte ordens propagatoren
+    \begin{equation*}
+    \begin{gathered}
+        \begin{fmffile}{truncated_line}
+            \begin{fmfgraph}(30,15)
+            \fmfleft{i1}
+            \fmfright{o1}
+            \fmf{fermion}{i1,o1}
+            \end{fmfgraph}
+        \end{fmffile}
+    \end{gathered} = \frac{i}{(k^2 - m_0^2 + i\epsilon)},
+    \end{equation*}
+    med energi $k^2 = m^2$. 
+    Det vil si at 1-løkkediagrammet representerer en vei mellom de samme grensebetingelsene, men med ett hjørne -- én interaksjon.
+    Korreksjonen representerer en korreksjon i energien, $\omega \rightarrow \omega + \Delta \omega$, men siden $\omega^2 = m^2$, er dette ekvivalent med å behandle korreksjonen som en massekorreksjon
+    \begin{equation*}
+        m_0^2 = Z_m m_R^2 = m_R^2 + \delta_m m_R^2,
+    \end{equation*}
+    og vi renormaliserer bølgefunksjonene (løsningene på bevegelseslikningene) til
+    \begin{equation*}
+        \phi^R = \frac{1}{\sqrt{Z_2}} \phi^0, \, Z_2 = 1 + \delta_2
+    \end{equation*}
+    $\delta_m = \infty$ og $\delta_2 = \infty$ kalles kontraledd\footnote{
+        Minhan har definert kontraleddene på en litt annen måte enn Schwartz.
+    },
+    og er begge av orden $\O(\lambda)$.
+    De er nøklene til å fjerne uendeligheten i integralet vårt.
+
+    Vi kjenner nå energien til to propagatorer: $\O(\lambda^0)$ og $\O(\lambda^1)$.
+    Summen av disse er energien \emph{opp til første orden i $\lambda$} for en partikkels bevegelse fra $x$ til $y$ i $\lambda \phi^4$-teori.
+    La oss skrive ut begge to, og summere dem:
+
+    Den nullte ordens propagatoren -- med endepunkter -- kan skrives som en rekkeutvikling i $\delta_m$
+    \begin{equation*}
+    \begin{split}
+    \begin{gathered}
+        \begin{fmffile}{no_loop}
+            \begin{fmfgraph}(30,10)
+            \fmfleft{i1}
+            \fmfright{o1}
+            \fmf{fermion}{i1,o1}
+            \fmfdot{i1,o1}
+            \end{fmfgraph}
+        \end{fmffile}
+    \end{gathered}
+        &= \frac{1}{Z_2} \frac{i}{(k^2 - m_0^2 + i\epsilon)} \\
+        &= \frac{1}{1 + \delta_2} \frac{i}{k^2 - m_R^2} \frac{1}{\frac{\delta_m m_R^2}{k^2 - m_R^2} + 1}  \\
+        &\simeq (1+ \delta_2) \left[ \frac{i}{k^2 - m_R^2} + \frac{i}{k^2 - m_R^2} (i \delta_m m_R^2) \frac{i}{k^2 - m_R^2} + \O(\lambda^2) \right] \\
+        &= \frac{i}{k^2 - m_R^2} + \frac{i}{k^2 - m_R^2} [i (\delta_2 (k^2 - m_R^2) + \delta_m m_R^2)] \frac{i}{k^2 - m_R^2} + \O(\lambda^2),
+    \end{split}
+    \end{equation*}
+    og den første ordens propagatoren er
+    \begin{equation*}
+    \begin{split}
+    \begin{gathered}
+        \begin{fmffile}{one_loop}
+            \begin{fmfgraph}(30,15)
+            \fmfleft{i1}
+            \fmfright{o1}
+            \fmf{fermion}{i1,v,o1}
+            \fmf{fermion}{v,v}
+            \fmfdot{i1,v,o1}
+            \end{fmfgraph}
+        \end{fmffile}
+    \end{gathered} 
+        &= \frac{i}{k^2 - m^2} \Sigma_2(k) \frac{i}{k^2 - m^2} \\
+    \end{split}
+    \end{equation*}
+    Vi ser at når disse legges sammen, får vi den totale, renormaliserte \emph{effektive propagatoren}.
+    \begin{equation*}
+        \begin{split}
+        iG^R(k) &=  \langle \frac{\phi(x)}{\sqrt{Z_2}} \frac{\phi(y)}{\sqrt{Z_2}} \rangle = \frac{1}{Z_2} G^{bar}(k) \\
+        &= \frac{i}{k^2 - m_R^2}
+        + \frac{i}{k^2 - m_R^2} \{
+            i [\delta_2 k^2 - (\delta_2 + \delta_m) m_R^2 - \Sigma_2(k)]
+        \} \frac{i}{k^2 - m_R^2} 
+        + \O(\lambda^2),
+        \end{split}
+    \end{equation*}
+    Som nevnt, er hensikten med å introdusere kontraleddene $\delta_m$ og $\delta_2$ å fjerne divergensen fra løkken.
+    Dette kan vi nå gjøre, ved å finne kontraleddene slik at
+    \begin{equation*}
+            \delta_2 k^2 - (\delta_2 + \delta_m) m_R^2 - \Sigma_2(k) = 0,
+    \end{equation*}
+    altså
+    \begin{equation*}
+            \delta_2 k^2 - (\delta_2 + \delta_m) m_R^2 = \Sigma_2(k) 
+            = - \frac{i\lambda}{32\pi^2} \left(\Lambda^2 - m^2 \ln{\frac{\Lambda^2}{m^2}}\right).
+    \end{equation*}
+    Ettersom $\Sigma_2(k)$ er uavhengig av $k^2$, må $\delta_2 = 0$.
+    Dermed har vi bestemt kontraleddene:\footnote{Det finnes flere mulige måter å velge $\delta_m$ på. Ved å trekke fra eller legge til endelige ledd i kontraleddene, kan man oppnå ulike uttrykk for massen, dog med samme fysiske betydning. Det sentrale er at den uendelige delen av selvenergien $\Sigma_2(k)$ \emph{må} fjernes.
+    De ulike valgmulighetene kalles subtraksjonsskjemaer.}
+    \begin{equation*}
+        \delta_2 = 0, \quad
+        \delta_m 
+            = - \frac{i\lambda}{32\pi^2} \left(\frac{\Lambda^2}{m^2} - \ln{\frac{\Lambda^2}{m^2}}\right),
+    \end{equation*}
+    og følgelig den reduserte massen $m_r$.
+\end{example}
+
+Hvis vi setter inn den regulariserte massen i lagrangefunksjonen fra eksempel \ref{ex:renormalisering} får vi
+\begin{equation*}
+    \begin{split}
+    \L &= \frac{1}{2} \phi^* \Box \phi 
+        - \frac{1}{2} m^2 \phi^2 
+        + \frac{\lambda}{4!} \phi^4 \\
+    \L_R &= \frac{1}{2} \phi_R^* \Box \phi_R 
+        - \frac{1}{2} m_R^2 \phi_R^2 
+        - \frac{1}{2} \delta_m m_R^2 \phi^2
+        + \frac{\lambda}{4!} \phi_R^4. \\
+    \end{split}
+\end{equation*}
+Renormaliseringen innebærer altså at vi legger til uendelige kontraledd i $\L$, slik at vi, når vi senere bergner integraler fra den nye lagrangefunksjonen $\L_R$, får endelige løsninger.
+Regulariseringsparametre, slik som $\Lambda$, er ufysiske parametre som faller bort fra fysisk observerbare størrelser.
+
+\subsubsection{Men hvilken masse er \emph{massen}?}
+$m_0 = \sqrt{m_R^2 + \delta_m m_R^2}$ i eksempel \ref{ex:renormalisering} er nå per definisjon uendelig, men $m_R$ er ikke det.
+Er denne den faktiske massen til partikkelen?
+Nei, ikke egetnlig.
+Den fysiske massen er definert som \emph{polmassen} til partikkelens proagator, som vi nå har renormalisert. 
+Dette er altså den massen $m_P^2$ som er slik at 
+\begin{equation*}
+    \begin{split}
+        iG^R(k) 
+        &= \frac{i}{k^2 - m_R^2 - \delta_m m_R^2} \\
+        &= \frac{i}{k^2 - m_R^2 + \Sigma_R(k)}
+    \end{split}
+\end{equation*}
+divergerer.
+Det vil si når
+\begin{equation*}
+    k^2 = m_P^2 = m_R^2 - \Sigma_R(m_P).
+\end{equation*}
+Slik finner vi den fysiske massen til partikkelen.
+
+\section{Diracfelter}
+Diraclikningen
+\begin{equation*}
+    (i \gamma^\mu \partial_\mu - m) \psi = 0
+\end{equation*}
+er bevegelseslikningen som følger fra diraclagrangefunksjonen
+\begin{equation*}
+    \L = \bar{\psi} (i \gamma^\mu \partial_\mu - m) \psi.
+\end{equation*}
+%Likningen kan tenkes på som en relativistisk generalisering av schrödingerlikningen, og et sentralt poeng her, er at denne generaliseringen 
+som beskriver spinorer $\psi = \begin{pmatrix} \psi_L \\ \psi_R \\ \end{pmatrix}$. 
+Et sentralt resultat er at disse må ha halvtallig spinn for at lorentzinvarians skal være bevart.
+
+\subsection{Løsningen på diraclikningen}
+\label{løsning_på_diraclikningen}
+Diraclikningen immpliserer at Klein-Gordon-likningen stemmer:
+\begin{equation*}
+    (\partial + m) (i \gamma^\mu \partial_\mu - m) \psi 
+    = (\partial^2 - m^2) \psi
+    = 0.
+\end{equation*}
+Dermed må spinorer løse Klein-Gordonlikningnen, og spinorene må kunne skrives som planbølger
+\begin{equation}
+    \label{diracfelt}
+    \psi_s(x) = \int \frac{d^3 p}{(2\pi)^3} u_s(p) e^{-ipx},
+\end{equation}
+med $p_0 > 0$, ettersom Klein-Gordon er en bølgelikning.
+Vi definerer også antipartikkelløsningen
+\begin{equation}
+    \label{diracfelt_anti}
+    \bar{\psi_s}(x) = \int \frac{d^3 p}{(2\pi)^3} v_s(p) e^{+ipx}.
+\end{equation}
+
+$u_s$ og $v_s$ er spinorer som gir polariseringsretningen til henholdsvis partikler og antipartikler.
+Vi ønsker å uttrykke disse ved hjelp av spinorene $\xi_s$ og $\eta_s$, for 
+$s \in \{1,2\} = \{\uparrow, \downarrow\}$, der vi velger 
+$\xi_\uparrow = \begin{pmatrix*} 1 \\ 0 \end{pmatrix*}$ og 
+$\xi_\downarrow = \begin{pmatrix*} 0 \\ 1 \end{pmatrix*}$, og tilsvarende for $\eta$.
+
+Vi gjør dette ved å løse diraclikningen i weylbasis.
+Denne likningen, som finnes ved å multiplisere ut diraclikningen for $\gamma$-matrisene i weylbasis, er
+\begin{equation*}
+    \begin{pmatrix*}
+        -m & i\sigma^\mu \partial_mu \\
+        i\sigma^\mu \partial_mu & -m \\
+    \end{pmatrix*}
+    \begin{pmatrix*}
+        \psi_L \\
+        \psi_R \\
+    \end{pmatrix*}
+    = 0.
+\end{equation*}
+I et referansesystem der partikkelen står stille, slik at $p^\mu = (m,0,0,0)$, blir spinorene da
+\begin{equation*}
+    \begin{pmatrix*}
+        -1 & 1 \\
+        1 & -1 \\
+    \end{pmatrix*}
+    u_s(p)
+    = 0
+\quad \text{og} \quad
+    \begin{pmatrix*}
+        -1 & -1 \\
+        -1 & -1 \\
+    \end{pmatrix*}
+    v_s(p)
+    = 0.
+\end{equation*}
+Hvis vi nå lar $p^\mu \rightarrow (E,0,0,p_z)$, med $E^2 = p_0^2 = \vec{p^2} + m^2$, får vi at 
+\begin{equation*}
+    \vec{p} \cdot \sigma = 
+    \begin{pmatrix*}
+        E - p_z & 0 \\
+        0 & E + p_z \\
+    \end{pmatrix*}
+\quad \text{og} \quad
+    \vec{p} \cdot \bar{\sigma} = 
+    \begin{pmatrix*}
+        E - p_z & 0 \\
+        0 & E + p_z \\
+    \end{pmatrix*},
+\end{equation*}
+med $\bar{\sigma} \coloneqq (\I, -\vec{\sigma})$ slik at den nye løsningen for spinorene blir 
+\begin{equation*}
+    u_s(p) =
+    \begin{bmatrix*}
+        \begin{pmatrix*}
+            \sqrt{E - p_z} & 0 \\
+            0 & \sqrt{E + p_z} \\
+        \end{pmatrix*} \xi_s \\
+        \begin{pmatrix*}
+            \sqrt{E + p_z} & 0 \\
+            0 & \sqrt{E - p_z} \\
+        \end{pmatrix*} \xi_s
+    \end{bmatrix*}
+\quad \text{og} \quad
+    v_s(p) =
+    \begin{bmatrix*}
+        \begin{pmatrix*}
+            \sqrt{E - p_z} & 0 \\
+            0 & \sqrt{E + p_z} \\
+        \end{pmatrix*} \eta_s \\
+        \begin{pmatrix*}
+            -\sqrt{E + p_z} & 0 \\
+            0 & -\sqrt{E - p_z} \\
+        \end{pmatrix*} \eta_s
+    \end{bmatrix*},
+\end{equation*}
+eller på en mer kompakt form
+\begin{equation*}
+    u_s(p) =
+        \begin{pmatrix*}
+            \sqrt{p\cdot\sigma} \xi_s \\
+            \sqrt{p\cdot\bar{\sigma}} \xi_s
+        \end{pmatrix*}
+\quad \text{og} \quad
+    v_s(p) =
+        \begin{pmatrix*}
+            \sqrt{p\cdot\sigma} \eta_s \\
+            -\sqrt{p\cdot\bar{\sigma}} \eta_s
+        \end{pmatrix*}.
+\end{equation*}
+
+\subsection{Kvantisering av diracfeltet og diracpropagatoren}
+Som en videreføring av det frie feltet, uttrykkes ved å førstekvantisere diracfeltet fra seksjon \ref{løsning_på_diraclikningen}, likning \eqref{diracfelt} og \eqref{diracfelt_anti}
+\begin{equation*}
+    \begin{split}
+    \psi(x) &= 
+        \int \frac{d^3p}{(2\pi)^3} \frac{1}{\sqrt{2\omega_p}} (a^s_p u_s(p) e^{-ipx} + b^{s\dagger}_p v_s(p) e^{ipx}), \\
+    \bar{\psi}(x) &= 
+        \int \frac{d^3p}{(2\pi)^3} \frac{1}{\sqrt{2\omega_p}} (a^{s\dagger}_p u_s(p) e^{-ipx} + b^s_p v_s(p) e^{ipx}).
+    \end{split}
+\end{equation*}
+
+Diracpropagatoren er
+\begin{equation*}
+    \tilde{S}_F(x - y) = \langle\psi_\alpha(x) \psi_\beta(y) \rangle = \frac{i}{\slashed{k} - m + i\epsilon}.
+\end{equation*}
+
+\section{Spredning}
+\label{spredning}
+For å beskrive spredning mellom partikler bruker vi S-matrisen 
+\begin{equation*}
+    S_{fi} = \bra{f}S\ket{i},
+\end{equation*}
+der $\ket{i}$ og $\bra{f}$ er tilstandene før og etter vekselvirkningen, altså ved $t= -\infty$ og $t= +\infty$.
+S-matrisen er knyttet til spredningstverrsnittet $d\sigma$ (som er kjent fra klassisk mekanikk) gjennom relasjonen 
+\begin{equation*}
+    d\sigma 
+        = \frac{| \bra{f} S \ket{i} | ^2}{\langle f | f \rangle \langle i | i \rangle} d\Pi,
+\end{equation*}
+der $d\Pi = \prod_j \frac{V}{(2\pi)^3} d^3 p_j$ er et impulselement for sluttilstanden $\ket{f}$.
+Hvis vi definterer \emph{overgangsmatrisen} $\T$ slik at $S = \I + i\T$ -- og stoler blindt på Minahan -- kan vi uttrykke sannsynligheten $P_{f\leftarrow i}$ for en overgang fra $\ket{i}$ til $\ket{f}$ som
+\begin{equation*}
+    P_{fi} = P_{f\leftarrow i}
+        = \frac{| \bra{f} \T \ket{i} | ^2}{\langle f | f \rangle \langle i | i \rangle}.
+\end{equation*}
+$\T = S - \I$ er den delen av $S$ som svarer til interaksjon, mens diagonalen i $S$ svarer til en fri teori, som ikke spres.
+
+For å beregne S-matriseelementene, er LSZ-reduksjonsformelen nyttig.
+
+\begin{theorem}[LSZ-reduksjonsformelen]
+    \label{LSZ}
+    Spreningsmatrisen (S-matrisen) kan uttrykkes
+    \begin{equation*}
+        \langle f \mathopen| S \mathclose| i \rangle 
+            = \prod_{j=0}^{n} \left[ i \int d^4x_j e^{\pm i p_j x_j}(\Box_j + m^2) \right]
+            \times \langle \Omega \mathopen| 
+                T{\phi(x_i) \phi(x_2) \cdots \phi(x_n)} 
+            \mathclose| \Omega \rangle,
+    \end{equation*}
+    der $-i$ og $+i$ i integranden svarer til henholsdvis start- og sluttilstander for systemet.
+\end{theorem}
+
+LSZ-formelen er et produkt av foruiertransformasjoner, $\int d^4x e^{-px}(\KG)$, av Klein-Gordon-operatoren, 
+For asymptotiske tilstander ($t = \pm \infty$), er $(\Box + m^2)\phi = 0$, så kun selve interaksjonen (som skjer ved endelig $t$) bidrar til S-matrisen.
+Videre er feynmanpropagatorene proporsjonale med $\frac{1}{-p^2 + m^2}$, slik at S-matrisen har poler i $p^2 - m^2 = \F{\KG}$
+Dette betyr at kun leddene i tidsordningsoperatoren som har $p_i^2 = m^2$ for \emph{alle} $p_i$ det vil si kun de leddene som består av partikler på skallet.
+LSZ-reduksjonsformelen reduserer med andre ord tidsordningsoperatoren til kun de tilstandene som oppfyller bevegelseslikningene, nemlig de asymptotiske tilstandene som vi ønsker å beregne.
+
+Her er det verdt å legge merke til at feynmandiagrammer beskriver netopp vekselvirkning mellom partikler, som er opphavet til spredning.
+Veiintegralet kan benyttes til å beregne LSZ-reduksjonsformelen, slik at esensielt alle verktøy og teorier som er definert i faget er nødvendige for å kunne beregne nettopp hvordan partikler påvirker hverandre:
+Hvordan spredning foregår.
+
+\end{document}
+
